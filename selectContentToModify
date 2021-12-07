@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h1>All Data Selected from the Database table: demo</h1>
+    <a href="/project_part2/createContentToDB.php">Back to Home</a>   
+<br />
+    <?php
+    //Database
+    $servername = "localhost:8889";
+    $username = "root";
+    $password = "root";
+    $dbname = "demo";
+
+    //Create Connection
+    $conn  = new mysqli($servername, $username, $password, $dbname);
+
+    //Check connection
+    if($conn->connect_error) {
+        die("Connection Failed: " . $conn->connect_error);
+    }
+
+    //Creating string to pull everything from the database.
+    $sql = "SELECT * FROM content"; 
+
+//Created table to display information from database.
+    if($result = mysqli_query($conn, $sql)) {
+
+      if(mysqli_num_rows($result) > 0) {
+        echo "<table>";
+        echo "<tr>";
+          echo "<th>id</th>";
+          echo "<th>Title</th>";
+          echo "<th>Meta Keywords</th>";
+          echo "<th>Meta Descriptions</th>";
+          echo "<th>Content Data</th>";
+        echo "</tr>";
+
+        while($row = mysqli_fetch_array($result)) {
+          echo "<tr>";
+            echo "<td>" . "<a href=" . "updateContent.php?page=" . $row['id'] . ">" . $row['id'] . "</a>" . "</td>";
+            echo "<td>" . "<a href=" . "updateContent.php?page=" . $row['id'] . ">" . $row['title'] . "</a>" . "</td>";
+            echo "<td>" . "<a href=" . "updateContent.php?page=" . $row['id'] . ">" . $row['metaKeywords'] . "</a>" . "</td>";
+            echo "<td>" . "<a href=" . "updateContent.php?page=" . $row['id'] . ">" . $row['metaDescription'] . "</a>" . "</td>";
+            echo "<td>" . "<a href=" . "updateContent.php?page=" . $row['id'] . ">" . $row['contentData'] . "</a>" . "</td>";
+            echo "</tr>";
+        }
+        echo "</table>";
+
+          mysqli_free_result($result);
+
+      }
+//If no information in database, message will display to user.
+      else {
+        echo "No records matching your query.";
+      }
+    }
+
+    else {
+      echo "ERROR: Could not execute $sql." . mysqli_error($conn);
+    }
+
+    mysqli_close($conn);  //close database. good practice.
+  
+    ?>
+  </body>
+</html>
