@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+
+  <body>
+    <h1>Web Form</h1>
+
+<!--PHP Code showing current date and time-->
+<?php
+echo "Today is " . date("Y/m/d") . "<br>";
+echo "at " . date("h:i:sa");
+?>
+
+<!--Web Form-->
+    <form name="myForm" method="post" action="insertContentToDB.php"><br />
+
+    <p>Enter a title.
+    <input type="text" name="title" id="title"><br />
+    </p>
+    <p>Enter Keywords.
+    <input type="text" name="metaKeywords" id="metaKeywords"><br />
+    </p>
+    <p>Enter Descriptions.
+    <input type="text" name="metaDescription" id="metaDescription"><br />
+    </p>
+    <p>Enter Content.
+    <input type="text" name="contentData" id="contentData"><br />
+    </p>
+    <input type="submit">
+    </form>
+    <br>
+    <br>
+<!--====================================================-->
+<?php
+//Some PHP string function examples
+$first = "Web Form created  ";
+$second = "by Lauren Lee.";
+
+$third = $first;
+$third .=$second;
+echo $third;
+?>
+  </body>
+</html>
