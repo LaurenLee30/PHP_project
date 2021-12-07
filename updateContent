@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <link rel="stylesheet" type="text/css" href="mycss.css"/>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Update Content</title>
+</head>
+    <body>
+    <div class="header">
+    <h1>Update Content</h1>
+</div>
+
+    <?php
+
+//Debugging
+    /*
+//These two lines go one time at the start of the script
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+//These three lines can go multiple times anywhere in the script
+echo "<pre>";
+print_r(get_defined_vars());
+echo "</pre>";
+*/
+
+        //Global Nav for easy navigation between different pages
+        require_once("navigation.php");
+
+    //Set up database connection.
+      //Database
+    $servername = "localhost:8889";
+    $username = "root";
+    $password = "root";
+    $dbname = "demo";
+
+    //Create Connection
+    $conn  = new mysqli($servername, $username, $password, $dbname);
+
+    //Check connection
+    if($conn->connect_error) {
+        die("Connection Failed: " . $conn->connect_error);
+    }
+
+    //Set up variable for query sting - GET method
+
+    $page = htmlspecialchars($_GET['page']);      //get page variable from browser URL string nad put in local variable
+    //echo "DEBUG = $page";
+
+    //Grab all content from table
+    $sql ="SELECT * from content WHERE id='$page'";
+    $result = mysqli_query($conn,$sql);
+
+    if(mysqli_num_rows($result) > 0) {
+
+      while ($row = mysqli_fetch_assoc($result))  {
+
+        //echo "DEBUG - id " . $row["id"] . " - Title = " . $row["title"] . "<br />";
+      
+        //Creating local variables
+        $title = $row["title"];
+        $metaKeywords = $row["metaKeywords"];
+        $metaDescription = $row["metaDescription"];
+        $contentData = $row["contentData"];
+
+      }
+
+    }
+
+  
+    mysqli_close($conn);
+
+?>
+
+
+<div class="content">
+    <form name="myForm" method="post" action="updatedContentToDB.php"><br />
+
+    <input type="hidden" name="content_id" id="content_id" value="<?php echo $page;?>">
+    
+    <p>Enter a title.
+    <input type="text" name="title" id="title" value="<?php echo $title;?>"><br />
+    </p>
+    <p>Enter Keywords.
+    <input type="text" name="metaKeywords" id="metaKeywords" value="<?php echo $metaKeywords;?>"><br />
+    </p>
+    <p>Enter Descriptions.
+    <input type="text" name="metaDescription" id="metaDescription" value="<?php echo $metaDescription;?>"><br />
+    </p>
+    <p>Enter Content.
+    <input type="text" name="contentData" id="contentData" value="<?php echo $contentData;?>"><br />
+    </p>
+    <input type="submit">
+    </form>
+    <br>
+    <br>
+</div>
+
+  </body>
+</html>
