@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Content Web Form</title>
+    <link rel="stylesheet" href="mycss.css"/>
+  </head>
+
+  <body>
+  <div class="header">
+    <h1>Create Content Web Form</h1>
+</div>
+
+
+<?php
+    //Global Nav
+    require_once("navigation2.php");
+    require_once("databaseConnect.php");
+
+    //Deleting 
+    $id = htmlspecialchars($_GET['page']);  //get user id to delete from the database from prior screen
+
+    //sql to delete record
+    $sql = "DELETE FROM content WHERE id='$id'";  //query string 
+
+    if(mysqli_query($conn, $sql)) {
+      echo "Record deleted successfully.";
+    }
+
+    else {
+      echo "Error deleting record: " . mysqli_error($conn);
+    }
+
+    mysqli_close($conn);
+?>
+
+</body>
+</html>
