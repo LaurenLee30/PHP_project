@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <body>
+
+    <?php
+    $title = htmlspecialchars($_POST['title']); 
+    $metaKeywords = htmlspecialchars($_POST['metaKeywords']);
+    $metaDescription = htmlspecialchars($_POST['metaDescription']);
+    $contentData = htmlspecialchars($_POST['contentData']);
+
+    //Debugging Code
+    /*
+    echo "DEBUG - The Title = " . $title . "<br />";    
+    echo "DEBUG - The Title = " . $metaKeywords . "<br />";
+    echo "DEBUG - The Title = " . $metaDescription . "<br />";
+    echo "DEBUG - The Title = " . $contentData . "<br />";
+    */
+
+    //Database
+    $servername = "localhost:8889";
+    $username = "root";
+    $password = "root";
+    $dbname = "demo";
+
+    //Database Connection
+    $conn  = new mysqli($servername, $username, $password, $dbname);
+
+    //Check connection
+    if($conn->connect_error) {
+        die("Connection Failed: " . $conn->connect_error);
+    }
+
+    //SQL Command
+    $sql = "INSERT INTO content (title, metaKeywords, metaDescription, contentData) 
+    VALUES ('$title', '$metaKeywords', '$metaDescription', '$contentData')";
+
+    if(mysqli_query($conn, $sql)) {
+        echo "New record created successfully!";
+       	
+        }
+
+    else {
+            echo "Error: " . $sql . "" . mysql_error($conn);
+        }
+
+        $conn->close();
+?>
+  </body>
+</html>
+
