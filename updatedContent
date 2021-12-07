@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Updated Content to DB</title>
+  </head>
+
+  <body>
+
+  <?php
+//Debugging Code
+  /*
+//These two lines go one time at the start of the script
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+//These three lines can go multiple times anywhere in the script
+echo "<pre>";
+print_r(get_defined_vars());
+echo "</pre>";
+*/
+
+      //Global Nav
+      require_once("navigation2.php");
+
+  $id = htmlspecialchars($_POST['content_id']); //Primay key in content DB table to perform the UPDATE
+  $title = htmlspecialchars($_POST['title']);
+  $metaKeywords = htmlspecialchars($_POST['metaKeywords']);
+  $metaDescription = htmlspecialchars($_POST['metaDescription']);   
+  $contentData = htmlspecialchars($_POST['contentData']);
+
+   //Database
+   $servername = "localhost:8889";
+   $username = "root";
+   $password = "root";
+   $dbname = "demo";
+
+   //Create Connection
+   $conn  = new mysqli($servername, $username, $password, $dbname);
+
+   //Check connection
+   if($conn->connect_error) {
+       die("Connection Failed: " . $conn->connect_error);
+   }
+
+   $sql = "UPDATE content SET title='$title', metaKeywords='$metaKeywords', metaDescription='$metaDescription', contentData='$contentData'
+   WHERE id='$id'";
+
+if(mysqli_query($conn, $sql)) {
+  echo "New record created successfully!";
+      
+  }
+
+/*else {
+      echo "Error: " . $sql . "" . mysql_error($conn);
+  }
+*/
+  $conn->close();
+
+  ?>
+
+  </body>
+  </html>
